@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN_1">%d{dd-MM-yyyy HH:mm:ss.SSS} %thread [mpaas-api,%X{eHeader}] [%-5level] %class{0} - %msg%n</Property>
+        <Property name="LOG_PATTERN_2">%d{dd-MM-yyyy HH:mm:ss.SSS} %thread [%-5level] %class{0} - %msg%n</Property>
+        <Property name="LOG_DIR">${sys:user.home}/mettl_logs/sample_vertx_app/</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile
+                name="rollingFileAppender"
+                fileName="${LOG_DIR}/mettl.log"
+                filePattern="${LOG_DIR}/mettl-%d{yyyy-MM-dd-HH-mm}-%i.log"
+                ignoreExceptions="false">
+            <PatternLayout pattern="${LOG_PATTERN_1}"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1000"/>
+        </RollingFile>
+
+
+    </Appenders>
+    <Loggers>
+        <Logger name="com.example" level="DEBUG" additivity="false">
+            <AppenderRef ref="rollingFileAppender"/>
+        </Logger>
+
+<!--        <Logger name="com.mettl.metrics" level="TRACE" additivity="false">-->
+<!--            <AppenderRef ref="mclMetricesAppender"/>-->
+<!--        </Logger>-->
+
+        <Root level="ERROR">
+            <AppenderRef ref="rollingFileAppender"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
